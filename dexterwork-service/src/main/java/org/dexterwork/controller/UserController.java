@@ -56,6 +56,7 @@ public class UserController {
 		throw new UserNotFoundException();
 	}
 
+
 	@RequestMapping(value = "/delete/{userId}" , method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public UserResp deleteUser(@PathVariable("userId") int userId){
@@ -67,5 +68,6 @@ public class UserController {
 		}
 		throw new UserNotFoundException();
 	}
+
 	
 }
