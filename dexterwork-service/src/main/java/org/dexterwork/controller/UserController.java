@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -21,20 +22,24 @@ public class UserController {
 
 	public static List<User> userList = new ArrayList<User>();
 	
-	/*static{
-		userList.add(new User(1, "Joe", "1234"));
-	}*/
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public AuthRes createUser (@RequestBody User user){
 		if(null != user){
+			user.setUserId(index);
 			userList.add(user);
 			index++;
-			return new AuthRes(index, RespCode.SUCCESS,"User Created successfully with id : "+index);
+			return new AuthRes((index-1), RespCode.SUCCESS,"User Created successfully with id : "+(index-1));
 		}else{
 			return new AuthRes(RespCode.FAILURE, "User not Found ");
 		}
+	}
+	
+	@RequestMapping(value = "/getUser" ,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getAllUser() {
+		return userList;
 	}
 	
 }
