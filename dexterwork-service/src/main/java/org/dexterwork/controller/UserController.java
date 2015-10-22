@@ -3,11 +3,13 @@ package org.dexterwork.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dexterwork.model.AuthRes;
+import org.dexterwork.model.UserResp;
+import org.dexterwork.exception.UserNotFoundException;
 import org.dexterwork.model.RespCode;
 import org.dexterwork.model.User;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,21 +27,35 @@ public class UserController {
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public AuthRes createUser (@RequestBody User user){
+	public UserResp createUser (@RequestBody User user){
 		if(null != user){
 			user.setUserId(index);
 			userList.add(user);
 			index++;
-			return new AuthRes((index-1), RespCode.SUCCESS,"User Created successfully with id : "+(index-1));
+			return new UserResp((index-1), RespCode.SUCCESS,"User Created successfully with id : "+(index-1));
 		}else{
-			return new AuthRes(RespCode.FAILURE, "User not Found ");
+			return new UserResp(RespCode.FAILURE, "User not Found ");
 		}
 	}
 	
-	@RequestMapping(value = "/getUser" ,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/get" ,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<User> getAllUser() {
 		return userList;
 	}
+	
+	
+	@RequestMapping(value = "/get/{userId}" , method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public UserResp getUserbyId(@PathVariable("userId") int userId ){
+		for(User user :userList){
+			if(user.getUserId() == userId){
+				return new UserResp(userId, RespCode.SUCCESS, "User is found with id : "+user.getUserId());
+			}
+		}
+		throw new UserNotFoundException();
+	}
+
+	
 	
 }

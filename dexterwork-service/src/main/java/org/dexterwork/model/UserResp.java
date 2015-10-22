@@ -1,24 +1,24 @@
 package org.dexterwork.model;
 
-public class AuthRes {
+public class UserResp {
 
 	private int userId;
 	private RespCode respCode;
 	private String msg;
 
-	public AuthRes() {
+	public UserResp() {
 		super();
 	}
 
 	
-	public AuthRes(RespCode respCode, String msg) {
+	public UserResp(RespCode respCode, String msg) {
 		super();
 		this.respCode = respCode;
 		this.msg = msg;
 	}
 
 
-	public AuthRes(int userId, RespCode respCode,String msg) {
+	public UserResp(int userId, RespCode respCode,String msg) {
 		super();
 		this.userId = userId;
 		this.respCode = respCode;
