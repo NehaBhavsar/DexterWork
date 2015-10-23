@@ -3,10 +3,13 @@ package org.dexterwork.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dexterwork.model.UserResp;
 import org.dexterwork.exception.UserNotFoundException;
 import org.dexterwork.model.RespCode;
 import org.dexterwork.model.User;
+import org.dexterwork.model.UserResp;
+import org.dexterwork.service.UserService;
+import org.dexterwork.util.CommonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,19 +23,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/users")
 public class UserController {
 	
-	private int index =1;
+	//private int index =1;
 
 	public static List<User> userList = new ArrayList<User>();
 	
+	@Autowired
+	UserService userService;
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public UserResp createUser (@RequestBody User user){
+		System.out.println("Creating USer ---------------------------------");
 		if(null != user){
-			user.setUserId(index);
-			userList.add(user);
-			index++;
-			return new UserResp((index-1), RespCode.SUCCESS,"User Created successfully with id : "+(index-1));
+			int userid = userService.createUser(CommonUtil.getMstUserFromVO(user));
+//			user.setUserId(index);
+//			userList.add(user);
+//			index++;
+			return new UserResp(userid, RespCode.SUCCESS,"User Created successfully with id : "+userid);
 		}else{
 			return new UserResp(RespCode.FAILURE, "User not Found ");
 		}

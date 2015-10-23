@@ -1,20 +1,22 @@
 package org.dexterwork.model;
 
+import org.dexterwork.entity.MstRole;
+
 public class User {
 
 	private int userId;
 	private String userName;
-	private String password;
-
+	private String passWord;
+	private MstRole role;
 	public User() {
 		super();
 	}	
 
-	public User( int userId,String userName, String password) {
+	public User( int userId,String userName, String passWord) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
-		this.password = password;
+		this.passWord = passWord;
 	}
 
 	public int getUserId() {
@@ -34,12 +36,24 @@ public class User {
 	}
 
 	
-	public String getPassword() {
-		return password;
+
+	public String getPassWord() {
+		return passWord;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
 	}
+
+	public MstRole getRole() {
+		return role;
+	}
+
+	public void setRole(MstRole role) {
+		this.role = role;
+	}
+
+	
+	
 
 }
