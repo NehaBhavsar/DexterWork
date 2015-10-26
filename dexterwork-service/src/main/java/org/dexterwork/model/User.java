@@ -7,7 +7,7 @@ public class User {
 	private int userId;
 	private String userName;
 	private String passWord;
-	private MstRole role;
+	private MstRole mstRole;
 	public User() {
 		super();
 	}	
@@ -46,11 +46,11 @@ public class User {
 	}
 
 	public MstRole getRole() {
-		return role;
+		return mstRole;
 	}
 
 	public void setRole(MstRole role) {
-		this.role = role;
+		this.mstRole = role;
 	}
 
 	

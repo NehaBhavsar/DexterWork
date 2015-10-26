@@ -1,8 +1,10 @@
 package org.dexterwork.model;
 
+import org.dexterwork.entity.MstUser;
+
 public class UserResp {
 
-	private int userId;
+	private MstUser user;
 	private RespCode respCode;
 	private String msg;
 
@@ -18,20 +20,24 @@ public class UserResp {
 	}
 
 
-	public UserResp(int userId, RespCode respCode,String msg) {
+	
+	public UserResp(MstUser user, RespCode respCode, String msg) {
 		super();
-		this.userId = userId;
+		this.user = user;
 		this.respCode = respCode;
 		this.msg = msg;
 	}
 
-	public int getUserId() {
-		return userId;
+
+	public MstUser getUser() {
+		return user;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+
+	public void setUser(MstUser user) {
+		this.user = user;
 	}
+
 
 	public RespCode getRespCode() {
 		return respCode;

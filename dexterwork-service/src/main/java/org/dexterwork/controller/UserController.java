@@ -3,6 +3,7 @@ package org.dexterwork.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dexterwork.entity.MstUser;
 import org.dexterwork.exception.UserNotFoundException;
 import org.dexterwork.model.RespCode;
 import org.dexterwork.model.User;
@@ -39,7 +40,7 @@ public class UserController {
 //			user.setUserId(index);
 //			userList.add(user);
 //			index++;
-			return new UserResp(userid, RespCode.SUCCESS,"User Created successfully with id : "+userid);
+			return new UserResp( RespCode.SUCCESS,"User Created successfully with id : "+userid);
 		}else{
 			return new UserResp(RespCode.FAILURE, "User not Found ");
 		}
@@ -48,6 +49,7 @@ public class UserController {
 	@RequestMapping(value = "/get" ,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<User> getAllUser() {
+		List<User> userList = userService.getAllUser();
 		return userList;
 	}
 	
@@ -55,11 +57,18 @@ public class UserController {
 	@RequestMapping(value = "/get/{userId}" , method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public UserResp getUserbyId(@PathVariable("userId") int userId ){
-		for(User user :userList){
-			if(user.getUserId() == userId){
-				return new UserResp(userId, RespCode.SUCCESS, "User is found with id : "+user.getUserId());
-			}
-		}
+		
+		MstUser user = userService.getUserById(userId);
+		
+		if(null != user)
+			return new UserResp(user,RespCode.SUCCESS,"User found with id :"+user.getUserId());
+		
+//		for(User user :userList){
+//			if(user.getUserId() == userId){
+//				return new UserResp(userId, RespCode.SUCCESS, "User is found with id : "+user.getUserId());
+//			}
+//		}
+		
 		throw new UserNotFoundException();
 	}
 
@@ -67,12 +76,18 @@ public class UserController {
 	@RequestMapping(value = "/delete/{userId}" , method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public UserResp deleteUser(@PathVariable("userId") int userId){
-		for(User user :userList){
+		
+		
+		RespCode result = userService.deleteUser(userId);
+		if(result.equals(RespCode.SUCCESS)){
+			return new UserResp(RespCode.SUCCESS,"User Deleted successfully with id : "+userId);
+		}
+		/*for(User user :userList){
 			if(user.getUserId() == userId){
 				userList.remove(user);
 				return new UserResp( RespCode.SUCCESS, "User is deleted with id : "+userId);
 			}
-		}
+		}*/
 		throw new UserNotFoundException();
 	}
 
